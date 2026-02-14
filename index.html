@@ -10,13 +10,28 @@
             margin: 0;
             background: linear-gradient(to bottom, #fff5f8, #f8bbd0);
             overflow: hidden;
-            font-family: 'serif';
+            font-family: 'Georgia', serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             text-align: center;
+        }
+
+        /* Efecto de pétalos de rosa */
+        .petal {
+            position: absolute;
+            background-color: #ffb6c1;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(360deg); }
         }
 
         .main-photo {
@@ -30,18 +45,19 @@
         }
 
         .card {
-            background: white;
+            background: rgba(255, 255, 255, 0.85);
             padding: 20px;
             border-radius: 25px;
-            width: 80%;
+            width: 85%;
             margin-top: -20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             z-index: 5;
+            backdrop-filter: blur(5px);
         }
 
         #canvasContainer {
             width: 100%;
-            height: 40vh;
+            height: 38vh;
             margin: 10px 0;
         }
 
@@ -55,6 +71,8 @@
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(216, 27, 96, 0.3);
+            z-index: 20;
+            position: relative;
         }
     </style>
 </head>
@@ -64,10 +82,10 @@
 
     <div class="card">
         <h2 style="color: #ad1457; margin-bottom: 5px;">Eres mi ángel ✨</h2>
-        <p style="color: #6a1b9a; font-size: 14px;">Otra melodía para decirte que eres lo más importante de mi vida.</p>
+        <p style="color: #6a1b9a; font-size: 14px;">Mi corazón late de alegría por tenerte.</p>
         
         <div id="canvasContainer">
-            <canvas width="300" height="300" id="tagCanvas">
+            <canvas width="320" height="320" id="tagCanvas">
                 <ul>
                     <li><a href="#">Mi guía 🧭</a></li>
                     <li><a href="#">Tu sonrisa 😊</a></li>
@@ -75,11 +93,25 @@
                     <li><a href="#">Amor eterno ♾️</a></li>
                     <li><a href="#">Mi tesoro 💎</a></li>
                     <li><a href="#">Te amo 💖</a></li>
+                    <li><a href="#">Mi refugio 🏠</a></li>
+                    <li><a href="#">Paz pura 🕊️</a></li>
+                    <li><a href="#">Abuela querida 🌹</a></li>
+                    <li><a href="#">Dulzura 🍯</a></li>
+                    <li><a href="#">Bondad ✨</a></li>
+                    <li><a href="#">Mi ejemplo 🌟</a></li>
+                    <li><a href="#">Valentía 🦁</a></li>
+                    <li><a href="#">Sabiduría 📚</a></li>
+                    <li><a href="#">Cariño 🤗</a></li>
+                    <li><a href="#">Luz en mi vida 🕯️</a></li>
+                    <li><a href="#">Gracias por tanto 🙏</a></li>
+                    <li><a href="#">Mi reina 👑</a></li>
+                    <li><a href="#">Siempre juntos 🫂</a></li>
+                    <li><a href="#">Corazón de oro 💛</a></li>
                 </ul>
             </canvas>
         </div>
 
-        <button class="btn-play" onclick="play()">🎵 Toca aquí</button>
+        <button class="btn-play" onclick="play()">🎵 Toca aquí, Abuela</button>
     </div>
 
     <audio id="audio" src="musica_2.mp3"></audio>
@@ -89,14 +121,42 @@
             var a = document.getElementById('audio');
             a.play();
         }
+
         window.onload = function() {
-            TagCanvas.Start('tagCanvas', '', {
-                textColour: '#d81b60',
-                outlineColour: 'transparent',
-                depth: 0.8,
-                maxSpeed: 0.05
-            });
+            try {
+                TagCanvas.Start('tagCanvas', '', {
+                    textColour: '#d81b60',
+                    outlineColour: 'transparent',
+                    depth: 0.8,
+                    maxSpeed: 0.05,
+                    initial: [0.1, -0.1],
+                    textFont: 'Georgia, serif',
+                    weight: true
+                });
+            } catch(e) {}
+            
+            // Crear pétalos
+            for(let i=0; i<25; i++) {
+                createPetal();
+            }
         };
+
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const size = Math.random() * 15 + 10 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 3 + 2 + 's';
+            petal.style.delay = Math.random() * 5 + 's';
+            document.body.appendChild(petal);
+            
+            // Reiniciar pétalo cuando termine la animación
+            petal.addEventListener('animationiteration', () => {
+                petal.style.left = Math.random() * 100 + 'vw';
+            });
+        }
     </script>
 </body>
 </html>
